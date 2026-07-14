@@ -3,6 +3,10 @@ views:
     sections:
       - type: grid
         cards:
+          - type: heading
+            icon: mdi:map
+            heading: Map
+            heading_style: title
           - type: custom:xiaomi-vacuum-map-card
             entity: vacuum.roborock_qrevo_s5v
             map_source:
@@ -478,6 +482,10 @@ views:
                     entity_id: "[[entity_id]]"
                 entity: select.roborock_qrevo_s5v_mop_mode
             additional_presets: []
+          - type: heading
+            icon: mdi:floor-plan
+            heading: Routines
+            heading_style: title
           - type: grid
             columns: 2
             square: false
@@ -524,6 +532,10 @@ views:
                     entity_id: button.roborock_qrevo_s5v_all_rooms_vac_mop
       - type: grid
         cards:
+          - type: heading
+            icon: mdi:robot-vacuum
+            heading: Vacuum Controls
+            heading_style: title
           - type: grid
             columns: 2
             square: false
@@ -618,6 +630,10 @@ views:
                       box-shadow: none;
                       height: 5px !important;
                     }
+          - type: heading
+            icon: mdi:state-machine
+            heading: Status
+            heading_style: title
           - type: grid
             columns: 2
             square: false
@@ -736,6 +752,10 @@ views:
                       box-shadow: none;
                       height: 5px !important;
                     }
+          - type: heading
+            icon: mdi:wrench
+            heading: Maintenance
+            heading_style: title
           - type: grid
             columns: 2
             square: false
