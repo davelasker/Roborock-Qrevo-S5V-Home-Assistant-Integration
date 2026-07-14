@@ -1,0 +1,779 @@
+views:
+  - type: sections
+    sections:
+      - type: grid
+        cards:
+          - type: custom:xiaomi-vacuum-map-card
+            entity: vacuum.roborock_qrevo_s5v
+            map_source:
+              camera: image.roborock_qrevo_s5v_living_area_custom
+            delay: 5000
+            calibration_source:
+              camera: true
+            append_titles: true
+            tiles: []
+            vacuum_platform: humbertogontijo/homeassistant-roborock
+            map_modes:
+              - name: Rooms
+                icon: mdi:floor-plan
+                run_immediately: false
+                coordinates_rounding: true
+                coordinates_to_meters_divider: 1000
+                selection_type: ROOM
+                id_type: number
+                max_selections: 999
+                repeats_type: EXTERNAL
+                max_repeats: 3
+                service_call_schema:
+                  service: roborock.vacuum_clean_segment
+                  service_data:
+                    segments: "[[selection]]"
+                    entity_id: "[[entity_id]]"
+                    repeats: "[[repeats]]"
+                predefined_selections:
+                  - id: "1"
+                    icon:
+                      name: mdi:broom
+                      x: 26900
+                      "y": 24700
+                    label:
+                      text: Dining room
+                      x: 26900
+                      "y": 24700
+                      offset_y: 35
+                    outline:
+                      - - 25200
+                        - 23550
+                      - - 28600
+                        - 23550
+                      - - 28600
+                        - 25850
+                      - - 25200
+                        - 25850
+                  - id: "2"
+                    icon:
+                      name: mdi:broom
+                      x: 35550
+                      "y": 17750
+                    label:
+                      text: Laundry
+                      x: 35550
+                      "y": 17750
+                      offset_y: 35
+                    outline:
+                      - - 34950
+                        - 16550
+                      - - 36150
+                        - 16550
+                      - - 36150
+                        - 18950
+                      - - 34950
+                        - 18950
+                  - id: "3"
+                    icon:
+                      name: mdi:broom
+                      x: 35875
+                      "y": 21250
+                    label:
+                      text: Bathroom
+                      x: 35875
+                      "y": 21250
+                      offset_y: 35
+                    outline:
+                      - - 35000
+                        - 20400
+                      - - 36750
+                        - 20400
+                      - - 36750
+                        - 22100
+                      - - 35000
+                        - 22100
+                  - id: "4"
+                    icon:
+                      name: mdi:broom
+                      x: 31425
+                      "y": 25650
+                    label:
+                      text: Living room
+                      x: 31425
+                      "y": 25650
+                      offset_y: 35
+                    outline:
+                      - - 29300
+                        - 24050
+                      - - 33550
+                        - 24050
+                      - - 33550
+                        - 27250
+                      - - 29300
+                        - 27250
+                  - id: "5"
+                    icon:
+                      name: mdi:broom
+                      x: 35775
+                      "y": 25450
+                    label:
+                      text: Office
+                      x: 35775
+                      "y": 25450
+                      offset_y: 35
+                    outline:
+                      - - 34300
+                        - 23600
+                      - - 37250
+                        - 23600
+                      - - 37250
+                        - 27300
+                      - - 34300
+                        - 27300
+                  - id: "6"
+                    icon:
+                      name: mdi:broom
+                      x: 33775
+                      "y": 20150
+                    label:
+                      text: Hall
+                      x: 33775
+                      "y": 20150
+                      offset_y: 35
+                    outline:
+                      - - 30400
+                        - 16300
+                      - - 34900
+                        - 16300
+                      - - 34900
+                        - 24000
+                      - - 30400
+                        - 24000
+                  - id: "7"
+                    icon:
+                      name: mdi:broom
+                      x: 28600
+                      "y": 20425
+                    label:
+                      text: Kitchen
+                      x: 28600
+                      "y": 20425
+                      offset_y: 35
+                    outline:
+                      - - 25200
+                        - 16800
+                      - - 32000
+                        - 16800
+                      - - 32000
+                        - 24050
+                      - - 25200
+                        - 24050
+                variables: {}
+              - name: Zone cleanup
+                icon: mdi:select-drag
+                run_immediately: false
+                coordinates_rounding: true
+                coordinates_to_meters_divider: 1000
+                selection_type: MANUAL_RECTANGLE
+                max_selections: 5
+                max_repeats: 3
+                service_call_schema:
+                  service: vacuum.send_command
+                  service_data:
+                    entity_id: "[[entity_id]]"
+                    command: app_zoned_clean
+                    params: "[[selection]]"
+                predefined_selections: []
+                variables: {}
+              - name: Pin & Go
+                icon: mdi:map-marker-plus
+                run_immediately: false
+                coordinates_rounding: true
+                coordinates_to_meters_divider: 1000
+                selection_type: MANUAL_POINT
+                max_selections: 999
+                repeats_type: NONE
+                max_repeats: 1
+                service_call_schema:
+                  service: vacuum.send_command
+                  service_data:
+                    entity_id: "[[entity_id]]"
+                    command: app_goto_target
+                    params: "[[selection]]"
+                predefined_selections: []
+                variables: {}
+            grid_options:
+              columns: full
+            icons:
+              - icon_id: start_cleanup
+                icon: mdi:play
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: cleaning
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: error
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: returning
+                tooltip: Start
+                tap_action:
+                  action: call-service
+                  service: vacuum.start
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: pause
+                icon: mdi:pause
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: docked
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: idle
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: error
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: paused
+                tooltip: Pause
+                tap_action:
+                  action: call-service
+                  service: vacuum.pause
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: stop
+                icon: mdi:stop
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: docked
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: idle
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: error
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: paused
+                tooltip: Stop
+                tap_action:
+                  action: call-service
+                  service: vacuum.stop
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: return_to_base
+                icon: mdi:home-map-marker
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: docked
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: returning
+                tooltip: Return to base
+                tap_action:
+                  action: call-service
+                  service: vacuum.return_to_base
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: clean_spot
+                icon: mdi:target-variant
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: docked
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: error
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: cleaning
+                  - entity: vacuum.roborock_qrevo_s5v
+                    value_not: returning
+                tooltip: Clean spot
+                tap_action:
+                  action: call-service
+                  service: vacuum.clean_spot
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: locate
+                icon: mdi:map-marker
+                tooltip: Locate
+                tap_action:
+                  action: call-service
+                  service: vacuum.locate
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - icon_id: fan_speed_menu_quiet
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: quiet
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: quiet
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: quiet
+              - icon_id: fan_speed_menu_balanced
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: balanced
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: balanced
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: balanced
+              - icon_id: fan_speed_menu_turbo
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: Turbo
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: turbo
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: turbo
+              - icon_id: fan_speed_menu_max
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: max
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: max
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: max
+              - icon_id: fan_speed_menu_max_plus
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: max_plus
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: max_plus
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: max_plus
+              - icon_id: fan_speed_menu_off
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: "off"
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: "off"
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: "off"
+              - icon_id: fan_speed_menu_smart_mode
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: smart_mode
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: smart_mode
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: smart_mode
+              - icon_id: fan_speed_menu_custom
+                menu_id: fan_speed
+                icon: mdi:fan-alert
+                label: custom
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value: custom
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: custom
+              - icon_id: fan_speed_unknown
+                icon: mdi:fan-alert
+                conditions:
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: quiet
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: balanced
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: turbo
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: max
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: max_plus
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: "off"
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: smart_mode
+                  - entity: vacuum.roborock_qrevo_s5v
+                    attribute: fan_speed
+                    value_not: custom
+                tooltip: Change fan speed
+                tap_action:
+                  action: call-service
+                  service: vacuum.set_fan_speed
+                  service_data:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                    fan_speed: quiet
+              - type: menu
+                menu_id: water_box_mode
+                icon_id: water_box_mode
+                available_values_attribute: options
+                icon: mdi:water
+                icon_mapping:
+                  "off": mdi:water-remove
+                  mild: mdi:water-minus
+                  moderate: mdi:water
+                  intense: mdi:water-plus
+                  custom: mdi:water-sync
+                tap_action:
+                  action: call-service
+                  service: select.select_option
+                  service_data:
+                    option: "[[value]]"
+                    entity_id: "[[entity_id]]"
+                entity: select.roborock_qrevo_s5v_mop_intensity
+              - type: menu
+                menu_id: mop_mode
+                icon_id: mop_mode
+                available_values_attribute: options
+                icon: mdi:water
+                icon_mapping:
+                  standard: mdi:standard-definition
+                  deep: mdi:high-definition
+                  deep_plus: mdi:ultra-high-definition
+                  custom: mdi:fit-to-screen-outline
+                tap_action:
+                  action: call-service
+                  service: select.select_option
+                  service_data:
+                    option: "[[value]]"
+                    entity_id: "[[entity_id]]"
+                entity: select.roborock_qrevo_s5v_mop_mode
+            additional_presets: []
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-template-card
+                entity: button.roborock_qrevo_s5v_dog_fur_vac_2
+                primary: Dog Fur Vac
+                icon: mdi:paw
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  target:
+                    entity_id: button.roborock_qrevo_s5v_dog_fur_vac_2
+              - type: custom:mushroom-template-card
+                entity: button.roborock_qrevo_s5v_dog_fur_vac_mop_2
+                primary: Dog Fur Vac+Mop
+                icon: mdi:dog-side
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  target:
+                    entity_id: button.roborock_qrevo_s5v_dog_fur_vac_mop_2
+              - type: custom:mushroom-template-card
+                entity: button.roborock_qrevo_s5v_full_floor_vac
+                primary: All Rooms Vac
+                icon: mdi:robot-vacuum
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  target:
+                    entity_id: button.roborock_qrevo_s5v_all_rooms_vac
+              - type: custom:mushroom-template-card
+                entity: button.roborock_qrevo_s5v_all_rooms_vac_mop
+                primary: All Rooms Vac+Mop
+                icon: mdi:home-floor-1
+                layout: horizontal
+                tap_action:
+                  action: call-service
+                  service: button.press
+                  target:
+                    entity_id: button.roborock_qrevo_s5v_all_rooms_vac_mop
+      - type: grid
+        cards:
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-template-card
+                primary: >
+                  {% if
+                  is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on') %}
+                    Pause
+                  {% else %}
+                    Start
+                  {% endif %}
+                icon: >
+                  {% if
+                  is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on') %}
+                    mdi:pause
+                  {% else %}
+                    mdi:play
+                  {% endif %}
+                tap_action:
+                  action: call-service
+                  service: >
+                    {% if
+                    is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on')
+                    %}
+                      vacuum.pause
+                    {% else %}
+                      vacuum.start
+                    {% endif %}
+                  target:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - type: custom:mushroom-template-card
+                primary: >
+                  {% if is_state('sensor.roborock_qrevo_s5v_status','charging')
+                  %}
+                    Docked
+                  {% else %}
+                    Return to Dock
+                  {% endif %}
+                icon: mdi:home-map-marker
+                tap_action:
+                  action: call-service
+                  service: vacuum.return_to_base
+                  target:
+                    entity_id: vacuum.roborock_qrevo_s5v
+              - type: custom:mushroom-template-card
+                primary: Empty Dust Bin
+                icon: mdi:trash-can-outline
+                icon_color: blue
+                tap_action:
+                  action: call-service
+                  service: vacuum.send_command
+                  target:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                  data:
+                    command: app_start_collect_dust
+              - type: custom:mushroom-template-card
+                primary: Wash Mop
+                icon: mdi:water-pump
+                icon_color: blue
+                tap_action:
+                  action: call-service
+                  service: vacuum.send_command
+                  target:
+                    entity_id: vacuum.roborock_qrevo_s5v
+                  data:
+                    command: app_start_wash
+              - type: markdown
+                content: " "
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                      height: 5px !important;
+                    }
+          - type: grid
+            columns: 1
+            square: false
+            cards:
+              - type: custom:mushroom-select-card
+                entity: select.roborock_qrevo_s5v_selected_map
+                name: Map
+              - type: markdown
+                content: " "
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                      height: 5px !important;
+                    }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-template-card
+                entity: sensor.roborock_qrevo_s5v_status
+                primary: >
+                  {% set s = states('sensor.roborock_qrevo_s5v_status') %} {% if
+                  s == 'segment_cleaning' %}
+                    Cleaning {{ states('sensor.roborock_qrevo_s5v_current_room') }}
+                  {% elif s == 'zoned_cleaning' %}
+                    Zone Cleaning
+                  {% elif s == 'going_to_wash_the_mop' %}
+                    Returning to wash mop
+                  {% elif s == 'washing_the_mop' %}
+                    Washing mop
+                  {% elif s == 'washing_the_mop_2' %}
+                    Washing mop
+                  {% elif s == 'emptying_the_bin' %}
+                    Emptying dustbin
+                  {% elif s == 'back_to_dock_washing_duster' %}
+                    Returning to dock
+                  {% elif s == 'air_drying' %}
+                    Air drying mop
+                  {% elif s == 'charging' %}
+                    Charging
+                  {% elif s == 'charging_complete' %}
+                    Fully charged
+                  {% elif s == 'returning_home' %}
+                    Returning home
+                  {% elif s == 'docking' %}
+                    Docking
+                  {% elif s == 'idle' %}
+                    Ready
+                  {% elif s == 'paused' %}
+                    Paused
+                  {% elif s == 'error' %}
+                    Vacuum Error
+                  {% else %}
+                    {{ s | replace('_',' ') | title }}
+                  {% endif %}
+                secondary: >
+                  {% if
+                  is_state('sensor.roborock_qrevo_s5v_status','air_drying') %}
+                    {{ states('sensor.roborock_qrevo_s5v_dock_mop_drying_remaining_time') }} h remaining
+                  {% else %}
+                    Battery {{ states('sensor.roborock_qrevo_s5v_battery') }}%
+                  {% endif %}
+                icon: >
+                  {% set s = states('sensor.roborock_qrevo_s5v_status') %} {% if
+                  s in
+                  ['washing_the_mop','washing_the_mop_2','going_to_wash_the_mop']
+                  %}
+                    mdi:water-sync
+                  {% elif s == 'emptying_the_bin' %}
+                    mdi:delete-empty
+                  {% elif s == 'air_drying' %}
+                    mdi:weather-windy
+                  {% elif s in ['charging','charging_complete'] %}
+                    mdi:battery-charging
+                  {% elif s == 'returning_home' %}
+                    mdi:home-map-marker
+                  {% else %}
+                    mdi:robot-vacuum
+                  {% endif %}
+                fill_container: true
+                multiline_secondary: false
+              - type: tile
+                entity: sensor.roborock_qrevo_s5v_current_room
+                name: Current Room
+              - type: tile
+                entity: sensor.roborock_qrevo_s5v_cleaning_progress
+                name: Progress
+              - type: tile
+                entity: sensor.roborock_qrevo_s5v_cleaning_time
+                name: Time
+              - type: custom:mushroom-template-card
+                entity: sensor.roborock_qrevo_s5v_cleaning_area
+                primary: Area Cleaned
+                secondary: >
+                  {{ (states('sensor.roborock_qrevo_s5v_cleaning_area') |
+                  float(0) * 10.7639) | round(0) }} ft²
+                icon: mdi:texture-box
+              - type: custom:mushroom-template-card
+                entity: sensor.roborock_qrevo_s5v_dock_error
+                primary: Dock Status
+                secondary: >
+                  {% if
+                  is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
+                    Ready
+                  {% else %}
+                    {{ states('sensor.roborock_qrevo_s5v_dock_dock_error') | replace('_',' ') | title }}
+                  {% endif %}
+                icon: >
+                  {% if
+                  is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
+                    mdi:check-circle
+                  {% else %}
+                    mdi:alert-circle
+                  {% endif %}
+                icon_color: >
+                  {% if
+                  is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
+                    green
+                  {% else %}
+                    red
+                  {% endif %}
+                fill_container: true
+              - type: markdown
+                content: " "
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                      height: 5px !important;
+                    }
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:mushroom-template-card
+                primary: Main Brush Time Left
+                secondary: >-
+                  {{
+                  states('sensor.roborock_qrevo_s5v_main_brush_time_left')|round(0)
+                  }} h
+                icon: mdi:broom
+              - type: custom:mushroom-template-card
+                primary: Side Brush Time Left
+                secondary: >-
+                  {{
+                  states('sensor.roborock_qrevo_s5v_side_brush_time_left')|round(0)
+                  }} h
+                icon: mdi:fan
+              - type: custom:mushroom-template-card
+                primary: Filter Time Left
+                secondary: >-
+                  {{
+                  states('sensor.roborock_qrevo_s5v_filter_time_left')|round(0)
+                  }} h
+                icon: mdi:air-filter
+              - type: custom:mushroom-template-card
+                primary: Sensors Time Left
+                secondary: >-
+                  {{
+                  states('sensor.roborock_qrevo_s5v_sensor_time_left')|round(0)
+                  }} h
+                icon: mdi:radar
+              - type: markdown
+                content: " "
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: transparent;
+                      border: none;
+                      box-shadow: none;
+                    }
