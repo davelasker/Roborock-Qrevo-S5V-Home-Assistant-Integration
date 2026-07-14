@@ -482,6 +482,16 @@ views:
                     entity_id: "[[entity_id]]"
                 entity: select.roborock_qrevo_s5v_mop_mode
             additional_presets: []
+          - type: markdown
+            content: " "
+            card_mod:
+              style: |
+                ha-card {
+                  background: transparent;
+                  border: none;
+                  box-shadow: none;
+                  height: 5px !important;
+                    }
           - type: heading
             icon: mdi:floor-plan
             heading: Routines
@@ -762,38 +772,88 @@ views:
             cards:
               - type: custom:mushroom-template-card
                 primary: Main Brush Time Left
-                secondary: >-
-                  {{
-                  states('sensor.roborock_qrevo_s5v_main_brush_time_left')|round(0)
-                  }} h
+                secondary: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_main_brush_time_left') |
+                  float(0) %}
+                   {% set total_hours = 300 %}
+
+                   {% set percent = ((hours / total_hours) * 100) | round(0) %}
+
+                   {{ hours | round(0) }} h, {{ percent }}%
                 icon: mdi:broom
+                icon_color: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_main_brush_time_left') |
+                  float(0) %}
+                   {% set total_hours = 300 %}
+                   {% set percent = ((hours / total_hours) * 100) | round(0) %}
+
+                   {% if percent > 50 %}
+                     green
+                   {% elif percent > 20 %}
+                     orange
+                   {% else %}
+                     red
+                   {% endif %}
               - type: custom:mushroom-template-card
                 primary: Side Brush Time Left
-                secondary: >-
-                  {{
-                  states('sensor.roborock_qrevo_s5v_side_brush_time_left')|round(0)
-                  }} h
+                secondary: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_side_brush_time_left') |
+                  float(0) %} {% set total_hours = 200 %}
+
+                  {% set percent = ((hours / total_hours) * 100) | round(0) %}
+
+                  {{ hours | round(0) }} h, {{ percent }}%
                 icon: mdi:fan
+                icon_color: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_side_brush_time_left') |
+                  float(0) %} {% set total_hours = 200 %} {% set percent =
+                  ((hours / total_hours) * 100) | round(0) %}
+
+                  {% if percent > 50 %}
+                    green
+                  {% elif percent > 20 %}
+                    orange
+                  {% else %}
+                    red
+                  {% endif %}
               - type: custom:mushroom-template-card
                 primary: Filter Time Left
-                secondary: >-
-                  {{
-                  states('sensor.roborock_qrevo_s5v_filter_time_left')|round(0)
-                  }} h
+                secondary: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_filter_time_left') |
+                  float(0) %} {% set total_hours = 150 %}
+
+                  {% set percent = ((hours / total_hours) * 100) | round(0) %}
+
+                  {{ hours | round(0) }} h, {{ percent }}%
                 icon: mdi:air-filter
+                icon_color: >
+                  {% set hours =
+                  states('sensor.roborock_qrevo_s5v_filter_time_left') |
+                  float(0) %} {% set total_hours = 150 %} {% set percent =
+                  ((hours / total_hours) * 100) | round(0) %}
+
+                  {% if percent > 50 %}
+                    green
+                  {% elif percent > 20 %}
+                    orange
+                  {% else %}
+                    red
+                  {% endif %}
               - type: custom:mushroom-template-card
                 primary: Sensors Time Left
-                secondary: >-
-                  {{
-                  states('sensor.roborock_qrevo_s5v_sensor_time_left')|round(0)
-                  }} h
+                secondary: >
+                  {{ states('sensor.roborock_qrevo_s5v_sensor_time_left') |
+                  int(0) }} h,  {{
+                  ((states('sensor.roborock_qrevo_s5v_sensor_time_left') |
+                  int(0) / 30) * 100) | round(0) }}%
                 icon: mdi:radar
-              - type: markdown
-                content: " "
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: transparent;
-                      border: none;
-                      box-shadow: none;
-                    }
+                icon_color: >
+                  {% set pct =
+                  ((states('sensor.roborock_qrevo_s5v_sensor_time_left') |
+                  int(0) / 30) * 100) | round(0) %} {% if pct > 50 %} green {%
+                  elif pct > 20 %} orange {% else %} red {% endif %}
