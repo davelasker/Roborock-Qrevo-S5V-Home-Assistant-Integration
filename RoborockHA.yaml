@@ -653,7 +653,7 @@ views:
                 primary: >
                   {% set s = states('sensor.roborock_qrevo_s5v_status') %} {% if
                   s == 'segment_cleaning' %}
-                    Cleaning {{ states('sensor.roborock_qrevo_s5v_current_room') }}
+                    Cleaning
                   {% elif s == 'zoned_cleaning' %}
                     Zone Cleaning
                   {% elif s == 'going_to_wash_the_mop' %}
@@ -731,7 +731,18 @@ views:
                 entity: sensor.roborock_qrevo_s5v_dock_error
                 primary: Dock Status
                 secondary: >
+
                   {% if
+                  is_state('binary_sensor.roborock_qrevo_s5v_dock_dirty_water_box','on')
+
+                  %}
+                    Dirty water tank
+                  {% elif
+                  is_state("binary_sensor.roborock_qrevo_s5v_dock_clean_water_box","on")
+
+                  %}
+                    Clean water tank
+                  {% elif
                   is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
                     Ready
                   {% else %}
@@ -739,13 +750,27 @@ views:
                   {% endif %}
                 icon: >
                   {% if
-                  is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
+                  is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') and
+                  is_state('binary_sensor.roborock_qrevo_s5v_dock_dirty_water_box','off')
+                  and
+                  is_state('binary_sensor.roborock_qrevo_s5v_dock_clean_water_box','off')
+
+                  %}
                     mdi:check-circle
                   {% else %}
                     mdi:alert-circle
                   {% endif %}
                 icon_color: >
                   {% if
+                  is_state('binary_sensor.roborock_qrevo_s5v_dock_dirty_water_box','on')
+                    %}
+                    red
+                  {% elif
+                  is_state("binary_sensor.roborock_qrevo_s5v_dock_clean_water_box",
+
+                  "on") %}
+                    red   
+                  {% elif
                   is_state('sensor.roborock_qrevo_s5v_dock_dock_error','ok') %}
                     green
                   {% else %}
