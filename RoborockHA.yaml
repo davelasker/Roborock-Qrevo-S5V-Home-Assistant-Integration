@@ -35,11 +35,13 @@ views:
                 repeats_type: EXTERNAL
                 max_repeats: 3
                 service_call_schema:
-                  service: roborock.vacuum_clean_segment
+                  service: vacuum.send_command
                   service_data:
-                    segments: "[[selection]]"
                     entity_id: "[[entity_id]]"
-                    repeats: "[[repeats]]"
+                    command: app_segment_clean
+                    params:
+                      - segments: "[[selection]]"
+                        repeat: "[[repeats]]"
                 predefined_selections:
                   - id: "1"
                     icon:
@@ -669,7 +671,7 @@ views:
                   {% elif s == 'zoned_cleaning' %}
                     Zone Cleaning
                   {% elif s == 'going_to_wash_the_mop' %}
-                    Mop or dustbin
+                    Returning to dock
                   {% elif s == 'washing_the_mop' %}
                     Washing mop
                   {% elif s == 'washing_the_mop_2' %}
