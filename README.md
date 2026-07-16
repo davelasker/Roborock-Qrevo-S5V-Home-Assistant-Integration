@@ -1,6 +1,6 @@
 Complete YAML file for a Home Assistant dashboard for Roborock QRevo S5V. Based on the official Roborock integration included with Home Assisant augmented with custom cards from HACS. This code was developed and tested with HA version 2026.7.
 
-Edit the section with the map. In edit mode, click the xiaomi-vacuum-map-card buttons "generate static config" and "generate rooms config" which will program the controls on the map card for your vacuum, and overwrite my room coordinates with yours.
+Edit the section with the map. In edit mode, click the xiaomi-vacuum-map-card buttons "generate static config" and "generate rooms config" which will program the controls on the map card for your vacuum, and overwrite my room coordinates with yours. Adjust the crop parameters to fit your map, or delete them if desired.
 
 Edit the names and entites for the 4 routines under the map to match yours.
 
