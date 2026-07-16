@@ -11,6 +11,12 @@ views:
             entity: vacuum.roborock_qrevo_s5v
             map_source:
               camera: image.roborock_qrevo_s5v_living_area_custom
+              crop:
+                top: 95
+                left: 120
+                right: 100
+                bottom: -5
+            map_locked: true
             delay: 5000
             calibration_source:
               camera: true
@@ -294,7 +300,7 @@ views:
                     entity_id: vacuum.roborock_qrevo_s5v
               - icon_id: fan_speed_menu_quiet
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: quiet
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -309,7 +315,7 @@ views:
                     fan_speed: quiet
               - icon_id: fan_speed_menu_balanced
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: balanced
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -324,7 +330,7 @@ views:
                     fan_speed: balanced
               - icon_id: fan_speed_menu_turbo
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: Turbo
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -339,7 +345,7 @@ views:
                     fan_speed: turbo
               - icon_id: fan_speed_menu_max
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: max
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -354,7 +360,7 @@ views:
                     fan_speed: max
               - icon_id: fan_speed_menu_max_plus
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: max_plus
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -369,7 +375,7 @@ views:
                     fan_speed: max_plus
               - icon_id: fan_speed_menu_off
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: "off"
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -384,7 +390,7 @@ views:
                     fan_speed: "off"
               - icon_id: fan_speed_menu_smart_mode
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: smart_mode
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -399,7 +405,7 @@ views:
                     fan_speed: smart_mode
               - icon_id: fan_speed_menu_custom
                 menu_id: fan_speed
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 label: custom
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
@@ -413,7 +419,7 @@ views:
                     entity_id: vacuum.roborock_qrevo_s5v
                     fan_speed: custom
               - icon_id: fan_speed_unknown
-                icon: mdi:fan-alert
+                icon: mdi:fan
                 conditions:
                   - entity: vacuum.roborock_qrevo_s5v
                     attribute: fan_speed
@@ -504,6 +510,7 @@ views:
                 entity: button.roborock_qrevo_s5v_dog_fur_vac_2
                 primary: Dog Fur Vac
                 icon: mdi:paw
+                color: blue
                 layout: horizontal
                 tap_action:
                   action: call-service
@@ -514,6 +521,7 @@ views:
                 entity: button.roborock_qrevo_s5v_dog_fur_vac_mop_2
                 primary: Dog Fur Vac+Mop
                 icon: mdi:dog-side
+                color: blue
                 layout: horizontal
                 tap_action:
                   action: call-service
@@ -524,6 +532,7 @@ views:
                 entity: button.roborock_qrevo_s5v_full_floor_vac
                 primary: All Rooms Vac
                 icon: mdi:robot-vacuum
+                color: blue
                 layout: horizontal
                 tap_action:
                   action: call-service
@@ -534,6 +543,7 @@ views:
                 entity: button.roborock_qrevo_s5v_all_rooms_vac_mop
                 primary: All Rooms Vac+Mop
                 icon: mdi:home-floor-1
+                color: blue
                 layout: horizontal
                 tap_action:
                   action: call-service
@@ -551,6 +561,7 @@ views:
             square: false
             cards:
               - type: custom:mushroom-template-card
+                color: blue
                 primary: >
                   {% if
                   is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on') %}
@@ -578,6 +589,7 @@ views:
                   target:
                     entity_id: vacuum.roborock_qrevo_s5v
               - type: custom:mushroom-template-card
+                color: blue
                 primary: >
                   {% if is_state('sensor.roborock_qrevo_s5v_status','charging')
                   %}
@@ -657,7 +669,7 @@ views:
                   {% elif s == 'zoned_cleaning' %}
                     Zone Cleaning
                   {% elif s == 'going_to_wash_the_mop' %}
-                    Returning to wash mop
+                    Mop or dustbin
                   {% elif s == 'washing_the_mop' %}
                     Washing mop
                   {% elif s == 'washing_the_mop_2' %}
@@ -673,7 +685,7 @@ views:
                   {% elif s == 'charging_complete' %}
                     Fully charged
                   {% elif s == 'returning_home' %}
-                    Returning home
+                    Returning to dock
                   {% elif s == 'docking' %}
                     Docking
                   {% elif s == 'idle' %}
@@ -709,6 +721,7 @@ views:
                   {% else %}
                     mdi:robot-vacuum
                   {% endif %}
+                icon_color: blue
                 fill_container: true
                 multiline_secondary: false
               - type: tile
@@ -727,6 +740,7 @@ views:
                   {{ (states('sensor.roborock_qrevo_s5v_cleaning_area') |
                   float(0) * 10.7639) | round(0) }} ft²
                 icon: mdi:texture-box
+                icon_color: blue
               - type: custom:mushroom-template-card
                 entity: sensor.roborock_qrevo_s5v_dock_error
                 primary: Dock Status
