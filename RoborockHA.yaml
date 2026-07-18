@@ -680,8 +680,11 @@ views:
                     Emptying dustbin
                   {% elif s == 'back_to_dock_washing_duster' %}
                     Returning to dock
-                  {% elif s == 'air_drying' %}
-                    Air drying mop
+                  {% elif
+                  states('binary_sensor.roborock_qrevo_s5v_dock_mop_drying') ==
+                  'on' %}
+                    {% set total_mins = (states('sensor.roborock_qrevo_s5v_dock_mop_drying_remaining_time') | float(0) * 60) | round(0) %}
+                    Drying Mop for {{ '%d:%02d' | format(total_mins // 60, total_mins % 60) }} 
                   {% elif s == 'charging' %}
                     Charging
                   {% elif s == 'charging_complete' %}
@@ -699,13 +702,8 @@ views:
                   {% else %}
                     {{ s | replace('_',' ') | title }}
                   {% endif %}
-                secondary: >
-                  {% if
-                  is_state('sensor.roborock_qrevo_s5v_status','air_drying') %}
-                    {{ states('sensor.roborock_qrevo_s5v_dock_mop_drying_remaining_time') }} h remaining
-                  {% else %}
-                    Battery {{ states('sensor.roborock_qrevo_s5v_battery') }}%
-                  {% endif %}
+                secondary: |
+                  Battery {{ states('sensor.roborock_qrevo_s5v_battery') }}%
                 icon: >
                   {% set s = states('sensor.roborock_qrevo_s5v_status') %} {% if
                   s in
