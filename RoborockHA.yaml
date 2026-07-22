@@ -3,10 +3,6 @@ views:
     sections:
       - type: grid
         cards:
-          - type: heading
-            icon: mdi:map
-            heading: Map
-            heading_style: title
           - type: custom:xiaomi-vacuum-map-card
             entity: vacuum.roborock_qrevo_s5v
             map_source:
@@ -490,99 +486,10 @@ views:
                     entity_id: "[[entity_id]]"
                 entity: select.roborock_qrevo_s5v_mop_mode
             additional_presets: []
-          - type: markdown
-            content: " "
-            card_mod:
-              style: |
-                ha-card {
-                  background: transparent;
-                  border: none;
-                  box-shadow: none;
-                  height: 5px !important;
-                    }
-          - type: heading
-            icon: mdi:floor-plan
-            heading: Routines
-            heading_style: title
-          - type: custom:auto-entities
-            card:
-              type: grid
-              square: false
-              columns: 2
-            card_param: cards
-            filter:
-              include:
-                - entity_id: button.roborock_qrevo_s5v_*
-                  options:
-                    type: custom:mushroom-template-card
-                    primary: >-
-                      {{ state_attr(entity, 'friendly_name') | replace('Roborock
-                      Qrevo S5V ', '') }}
-                    secondary: ""
-                    icon: mdi:robot-vacuum
-                    icon_color: blue
-                    tap_action:
-                      action: perform-action
-                      perform_action: button.press
-                      target:
-                        entity_id: this.entity_id
-            sort:
-              method: attribute
-              attribute: friendly_name
-              reverse: false
-      - type: grid
-        cards:
-          - type: heading
-            icon: mdi:robot-vacuum
-            heading: Vacuum Controls
-            heading_style: title
           - type: grid
             columns: 2
             square: false
             cards:
-              - type: custom:mushroom-template-card
-                color: blue
-                primary: >
-                  {% if
-                  is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on') %}
-                    Pause
-                  {% else %}
-                    Start
-                  {% endif %}
-                icon: >
-                  {% if
-                  is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on') %}
-                    mdi:pause
-                  {% else %}
-                    mdi:play
-                  {% endif %}
-                tap_action:
-                  action: call-service
-                  service: >
-                    {% if
-                    is_state('binary_sensor.roborock_qrevo_s5v_cleaning','on')
-                    %}
-                      vacuum.pause
-                    {% else %}
-                      vacuum.start
-                    {% endif %}
-                  target:
-                    entity_id: vacuum.roborock_qrevo_s5v
-              - type: custom:mushroom-template-card
-                color: blue
-                primary: >
-                  {% if is_state('sensor.roborock_qrevo_s5v_status','charging')
-                  %}
-                    Docked
-                  {% else %}
-                    Return to Dock
-                  {% endif %}
-                icon: mdi:home-map-marker
-                tap_action:
-                  action: call-service
-                  service: vacuum.return_to_base
-                  target:
-                    entity_id: vacuum.roborock_qrevo_s5v
               - type: custom:mushroom-template-card
                 primary: Empty Dust Bin
                 icon: mdi:trash-can-outline
@@ -634,15 +541,53 @@ views:
                       {% else %}
                         {}
                       {% endif %}
-              - type: markdown
-                content: " "
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: transparent;
-                      border: none;
-                      box-shadow: none;
-                      height: 5px !important;
+          - type: markdown
+            content: " "
+            card_mod:
+              style: |
+                ha-card {
+                  background: transparent;
+                  border: none;
+                  box-shadow: none;
+                  height: 5px !important;
+                    }
+      - type: grid
+        cards:
+          - type: custom:auto-entities
+            card:
+              type: grid
+              square: false
+              columns: 2
+            card_param: cards
+            filter:
+              include:
+                - entity_id: button.roborock_qrevo_s5v_*
+                  options:
+                    type: custom:mushroom-template-card
+                    primary: >-
+                      {{ state_attr(entity, 'friendly_name') | replace('Roborock
+                      Qrevo S5V ', '') }}
+                    secondary: ""
+                    icon: mdi:robot-vacuum
+                    icon_color: blue
+                    tap_action:
+                      action: perform-action
+                      perform_action: button.press
+                      target:
+                        entity_id: this.entity_id
+            sort:
+              method: attribute
+              attribute: friendly_name
+              reverse: false
+          - type: markdown
+            content: " "
+            card_mod:
+              style: |
+                ha-card {
+                  background: transparent;
+                  border: none;
+                  box-shadow: none;
+                  height: 5px !important;
                     }
           - type: grid
             columns: 1
@@ -661,10 +606,6 @@ views:
                       box-shadow: none;
                       height: 5px !important;
                     }
-          - type: heading
-            icon: mdi:state-machine
-            heading: Status
-            heading_style: title
           - type: grid
             columns: 2
             square: false
@@ -808,10 +749,6 @@ views:
                       box-shadow: none;
                       height: 5px !important;
                     }
-          - type: heading
-            icon: mdi:wrench
-            heading: Maintenance
-            heading_style: title
           - type: grid
             columns: 2
             square: false
